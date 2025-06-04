@@ -4,4 +4,6 @@ public class EnrollmentDto
 {
     public StudentDTO Student { get; set; }
     public CourseDTO Course { get; set; }
+    public DateTime EnrollmentDate { get; set; }
+ 
 }

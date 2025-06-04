@@ -1,40 +1,35 @@
-namespace WebApplication1.Controllers;
-
 public interface IEnrollmentService
 {
-    public Task<EnrollmentDTO> GetEnrollment();
+    public Task<IEnumerable<EnrollmentDTO>> GetEnrollment();
 }
 public class EnrollmentService(AppDbContext context) : IEnrollmentService
 {
-    public async Task<EnrollmentDTO> GetEnrollment()
+    public async Task<IEnumerable<EnrollmentDTO>> GetEnrollment()
     {
 
-        var enrollment = await context.Enrollments
+        var enrollments = await context.Enrollments
             .Include(e => e.Student)
             .Include(e => e.Course)
-            .FirstOrDefaultAsync();
+            .ToListAsync();
 
-        if (enrollment == null)
-        {
-            return null;
-        }
-
-        return new EnrollmentDTO
+        return enrollments.Select(e => new EnrollmentDTO
         {
             Student = new StudentDTO
             {
-                Id = enrollment.Student.ID,
-                FirstName = enrollment.Student.FirstName,
-                LastName = enrollment.Student.LastName,
-                Email = enrollment.Student.Email
+                Id = e.Student.ID,
+                FirstName = e.Student.FirstName,
+                LastName = e.Student.LastName,
+                Email = e.Student.Email
             },
             Course = new CourseDTO
             {
-                Id = enrollment.Course.ID,
-                Title = enrollment.Course.Title,
-                Credits = enrollment.Course.Credits,
-                Teacher = enrollment.Course.Teacher
-            }
-        };
+                Id = e.Course.ID,
+                Title = e.Course.Title,
+                Credits = e.Course.Credits,
+                Teacher = e.Course.Teacher
+            },
+            EnrollmentDate = e.EnrollmentDate
+        }).ToList();
     }
 }
+ 
