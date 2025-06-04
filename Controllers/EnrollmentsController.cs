@@ -5,7 +5,7 @@ namespace WebApplication1.Controllers;
 
 [ApiController]
 [Route("/api/[controller]")]
-public class EnrollmentsController
+public class EnrollmentsController(IEnrollmentService service): ControllerBase
 {
     [HttpGet]
     public async Task<IActionResult> GetEnrollments()

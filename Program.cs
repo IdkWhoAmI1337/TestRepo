@@ -3,6 +3,7 @@ using kolokwium2_przyklad.Services;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Controllers;
 using WebApplication1.Models;
+using WebApplication1.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
